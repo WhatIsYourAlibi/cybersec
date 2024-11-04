@@ -16,7 +16,9 @@ This repository provides a structured Markdown template for creating network inf
 - **Example Data**: Sample IPs, MAC addresses, SSIDs, and device information to illustrate the structure of the report.
 
 - **Placeholders for Visuals**: Suggested placeholders for adding network diagrams, screenshots, and scan log excerpts to enhance the report.
-
+  
 ---
 **[📄 View ReportTemplate.md](https://github.com/WhatIsYourAlibi/cybersec/blob/main/Report.md)**
 ---
+
+![License](https://img.shields.io/badge/license-MIT-blue)
