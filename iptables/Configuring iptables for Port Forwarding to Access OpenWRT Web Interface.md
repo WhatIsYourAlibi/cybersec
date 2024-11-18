@@ -9,15 +9,10 @@
 
 # Step 2: Identify Your Router’s IP Address
 
-1. SSH into the router:
-   ```bash
-   ssh root@<router_IP>
-   ```
-2. Run:
+1. Run:
    ```bash
    ip addr show
    ```
-   - Find the `inet` address for the `br-lan` or relevant interface.
 
 # Step 3: Enable IP Forwarding on the Local Machine
 
