@@ -74,7 +74,7 @@ def save_data():
 
         # Prepare Telegram message
         message = (
-            f"🌐 *New Login Attempt Detected*:\n"
+            f"🔐 *New Login Attempt Detected*:\n"
             f"🕒 Timestamp: `{timestamp}`\n"
             f"🌍 IP Address: `{ip_address}`\n"
             f"📱 User-Agent: `{user_agent}`\n"
@@ -89,10 +89,44 @@ def save_data():
         print(f"Error in save_data: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
+@app.route('/notify_visit', methods=['POST', 'OPTIONS'])
+def notify_visit():
+    """Notify Telegram when a user visits the site."""
+    if request.method == 'OPTIONS':
+        # Handle preflight request
+        response = jsonify({"status": "success", "message": "Preflight request handled."})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+        response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
+        return response
+
+    try:
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        ip_address = request.remote_addr
+        user_agent = request.headers.get('User-Agent', 'Unknown')
+        mac_address = get_mac_address(ip_address)
+
+        # Prepare Telegram message
+        message = (
+            f"🌐 *Website Visit Detected*:\n"
+            f"🕒 Timestamp: `{timestamp}`\n"
+            f"🌍 IP Address: `{ip_address}`\n"
+            f"📱 User-Agent: `{user_agent}`\n"
+            f"🔗 MAC Address: `{mac_address}`"
+        )
+        send_telegram_message(message)
+
+        return jsonify({"status": "success", "message": "Visit notification sent"}), 200
+
+    except Exception as e:
+        print(f"Error in notify_visit: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
+
 
 @app.route('/')
 def home():
     return jsonify({"status": "success", "message": "Welcome to the service"}), 200
+
 
 
 if __name__ == '__main__':

