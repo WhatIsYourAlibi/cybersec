@@ -45,7 +45,7 @@ A Telegram bot was implemented to provide real-time notifications. The following
 
 
 2. **Password Entry**:
-   - When a user attempted to log in by entering credentials, the details (e.g., entered username/password) were captured and sent via Telegram.
+   - When a user attempted to log in by entering credentials, the details (password) were captured and sent via Telegram.
    - Notification included metadata like IP, timestamp, User-Agent and password.
 
      ![image](https://github.com/user-attachments/assets/1d7c011d-ed18-412c-8fb2-a848d26cb081)
