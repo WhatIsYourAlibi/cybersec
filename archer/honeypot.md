@@ -16,7 +16,7 @@ The primary goal of this project was to design and implement a functional clone 
 
 ## **Project Implementation**
 
----
+
 ### **Honeypot Interface Design**
 A replica of the Archer router's web interface was meticulously created to lure potential attackers. The fake interface mimicked the original's look and feel, including:
 
